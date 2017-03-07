@@ -1,6 +1,6 @@
 package mx.com.anzen.minio.bean;
 
-public class Credencial {
+public class Cresencial {
 	 
 	private String url;
 	private String accessKey;

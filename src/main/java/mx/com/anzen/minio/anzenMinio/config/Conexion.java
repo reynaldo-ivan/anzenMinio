@@ -1,4 +1,4 @@
-package mx.com.anzen.minio.config;
+package mx.com.anzen.minio.anzenMinio.config;
 
 import io.minio.MinioClient;
 import io.minio.errors.MinioException; 
