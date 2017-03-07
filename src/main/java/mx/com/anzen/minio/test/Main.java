@@ -37,15 +37,17 @@ public class Main {
 //		String res=beanPrincipal.crearNodo("rr");
 //		System.out.println("res "+res);
 		
-//		String url=beanPrincipal.crearUrl("banca", "/home/anzen/Escritorio/contrato.doc", 30); 
-//		System.out.println(url);
+		String url=beanPrincipal.crearUrl("banca", "/home/anzen/Escritorio/contrato.doc", 30); 
+		System.out.println(url);
 		
 		
 		 /**
 		  * Nos traeun ObjectStat con los datos del archivo
 		  */
-		ObjectStat object= beanPrincipal.datosArchivo("banca","contrato.doc"); 
-		System.out.println("nodo alm "+object.bucketName()+"\ntipo archivo "+object.contentType()+"\nnombre arch  " +object.name()+"\nfecha creacion "+object.createdTime());
+		
+		
+//		ObjectStat object= beanPrincipal.datosArchivo("banca","contrato.doc"); 
+//		System.out.println("nodo alm "+object.bucketName()+"\ntipo archivo "+object.contentType()+"\nnombre arch  " +object.name()+"\nfecha creacion "+object.createdTime());
 		
 		
 		((ConfigurableApplicationContext) appContext).close();

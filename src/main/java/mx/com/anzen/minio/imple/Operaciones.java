@@ -6,6 +6,10 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.xmlpull.v1.XmlPullParserException;
 
 import io.minio.MinioClient;
@@ -20,18 +24,30 @@ import io.minio.errors.NoResponseException;
 import io.minio.messages.Bucket;
 import io.minio.messages.Item;
 import mx.com.anzen.minio.bean.Archivo;
-import mx.com.anzen.minio.config.Conexion;
+import mx.com.anzen.minio.config.AppConfig;
+import mx.com.anzen.minio.interfaces.IConexion;
 import mx.com.anzen.minio.interfaces.IOperaciones;
 
+
+/**
+ * 
+ * @author anzen
+ *
+ *clase que contiene los metodos con las diferentes operaciones
+ */
 public class Operaciones implements IOperaciones{
+	
+	ApplicationContext appContext=null;
+	IConexion beanConexion=null;
 	
 	/**
 	 * Valida si existe el nombre del nodo dado.
 	 */
 	public boolean existeNodo(String nombreNodo){
 		
-		Conexion conexion=new Conexion(); 
-		MinioClient minioClient=conexion.conexionMinio();
+		appContext=new AnnotationConfigApplicationContext(AppConfig.class);
+		beanConexion=(IConexion) appContext.getBean("conexionConfig"); 
+		MinioClient minioClient=beanConexion.conexionMinio();
 		
 		boolean resultado=false;
 		try {
@@ -66,6 +82,7 @@ public class Operaciones implements IOperaciones{
 			e.printStackTrace();
 		}
 		
+		((ConfigurableApplicationContext) appContext).close();
 		return resultado;
 	}
 	
@@ -76,11 +93,12 @@ public class Operaciones implements IOperaciones{
 	
 	public String subirArchivo(String nodo,String ruta){
 		String resultado="";
-		
+		 
 		File archivo = new File(ruta); 
 		 try {
-			 Conexion conexion=new Conexion(); 
-				MinioClient minioClient=conexion.conexionMinio();
+			appContext=new AnnotationConfigApplicationContext(AppConfig.class);
+		    beanConexion=(IConexion) appContext.getBean("conexionConfig"); 
+			MinioClient minioClient=beanConexion.conexionMinio();
 		        
 		      try {
 				minioClient.putObject(nodo,archivo.getName(),ruta);
@@ -115,8 +133,11 @@ public class Operaciones implements IOperaciones{
 		List<Bucket> bucketList = null;
 		 try { 
 			try {
-				 Conexion conexion=new Conexion(); 
-				 MinioClient minioClient=conexion.conexionMinio();
+				appContext=new AnnotationConfigApplicationContext(AppConfig.class);
+			    beanConexion=(IConexion) appContext.getBean("conexionConfig"); 
+				MinioClient minioClient=beanConexion.conexionMinio();
+				 
+				 
 			     bucketList = minioClient.listBuckets();
 			} catch (InvalidKeyException e) {
 				System.out.println("Error: " + e.getMessage());
@@ -147,8 +168,9 @@ public class Operaciones implements IOperaciones{
 		Iterable<Result<Item>> myObjects = null;
 		ArrayList<Archivo> archivos=new ArrayList<Archivo>();
 			
-		Conexion conexion=new Conexion(); 
-		MinioClient minioClient=conexion.conexionMinio();
+		appContext=new AnnotationConfigApplicationContext(AppConfig.class);
+	    beanConexion=(IConexion) appContext.getBean("conexionConfig"); 
+		MinioClient minioClient=beanConexion.conexionMinio();
 		     
 		        
 		try {
@@ -211,8 +233,9 @@ public class Operaciones implements IOperaciones{
 		String resultado="";
 		 try {
 		       
-			 Conexion conexion=new Conexion(); 
-			 MinioClient minioClient=conexion.conexionMinio();
+			 appContext=new AnnotationConfigApplicationContext(AppConfig.class);
+			 beanConexion=(IConexion) appContext.getBean("conexionConfig"); 
+			 MinioClient minioClient=beanConexion.conexionMinio();
 			 
 		      boolean found;
 			try {
@@ -255,8 +278,9 @@ public class Operaciones implements IOperaciones{
 	public String eliminaNodo(String nombreNodo){
 		String resultado="";
 		try {
-			Conexion conexion=new Conexion(); 
-			 MinioClient minioClient=conexion.conexionMinio();
+			appContext=new AnnotationConfigApplicationContext(AppConfig.class);
+		    beanConexion=(IConexion) appContext.getBean("conexionConfig"); 
+			MinioClient minioClient=beanConexion.conexionMinio();
 
 		      boolean found;
 			try {
@@ -301,8 +325,9 @@ public class Operaciones implements IOperaciones{
 	public String generaUrl(String nombreNodo,String nombreArchivo, int tiempoVida){
 		String url = null;
 		try {
-			Conexion conexion=new Conexion(); 
-			MinioClient minioClient=conexion.conexionMinio();  
+			appContext=new AnnotationConfigApplicationContext(AppConfig.class);
+		    beanConexion=(IConexion) appContext.getBean("conexionConfig"); 
+			MinioClient minioClient=beanConexion.conexionMinio();  
 			   
 		    try {
 				url = minioClient.presignedGetObject(nombreNodo, nombreArchivo,tiempoVida);
@@ -342,8 +367,9 @@ public class Operaciones implements IOperaciones{
 	public String generaUrlPut(String nombreNodo,String nombreArchivo, int tiempoVida){
 		String url = null;
 		try {
-			Conexion conexion=new Conexion(); 
-			MinioClient minioClient=conexion.conexionMinio();    
+			appContext=new AnnotationConfigApplicationContext(AppConfig.class);
+		    beanConexion=(IConexion) appContext.getBean("conexionConfig"); 
+			MinioClient minioClient=beanConexion.conexionMinio();   
 
 			
 		       try {
@@ -385,7 +411,7 @@ public class Operaciones implements IOperaciones{
 			
 			String resultado=subirArchivo( nodo, ruta); 
 			if(resultado.equalsIgnoreCase("Ok")){
-				url=generaUrl(nodo, archivo.getName(), tiempoVida); 
+				url=generaUrl(nodo, archivo.getName(), tiempoVida);
 				
 //				String respuestaElimina=eliminaArchivo(nodo,archivo.getName());
 //				System.out.println("Eliminacion: "+respuestaElimina);
@@ -399,11 +425,16 @@ public class Operaciones implements IOperaciones{
 		
 	}
 	
+	
+	/**
+	 * elimina el archivo. pasandole como parametro el nombre del nodo y el nombre del archivo.
+	 */
 	public String eliminaArchivo(String nodo, String nombreArchivo){
 		String resultado="";
 		try { 
-			  Conexion conexion=new Conexion(); 
-			  MinioClient minioClient=conexion.conexionMinio();  
+			appContext=new AnnotationConfigApplicationContext(AppConfig.class);
+		    beanConexion=(IConexion) appContext.getBean("conexionConfig"); 
+			MinioClient minioClient=beanConexion.conexionMinio();  
 			
 			  try {
 				minioClient.removeObject(nodo,nombreArchivo);
@@ -429,11 +460,15 @@ public class Operaciones implements IOperaciones{
 	}
 	
 	
+	/**
+	 * nos trae los datos de el archivo pasandole como parametro el nombre del nodo y el nombre del archivo.
+	 */
 	public ObjectStat datosArchivo(String nodo, String nombreArchivo){
 		ObjectStat objectStat=null;
 		 
-		Conexion conexion=new Conexion(); 
-		MinioClient minioClient=conexion.conexionMinio();  
+		appContext=new AnnotationConfigApplicationContext(AppConfig.class);
+	    beanConexion=(IConexion) appContext.getBean("conexionConfig"); 
+		MinioClient minioClient=beanConexion.conexionMinio();  
 		
 		try {
 		      try {

@@ -1,7 +1,8 @@
 package mx.com.anzen.minio.config;
 
 import io.minio.MinioClient;
-import io.minio.errors.MinioException; 
+import io.minio.errors.MinioException;
+import mx.com.anzen.minio.interfaces.IConexion; 
 
 
 
@@ -12,7 +13,7 @@ import io.minio.errors.MinioException;
  *Clase que realiza la conexion hacia el server de minio
  */
 
-public class Conexion {
+public class Conexion implements IConexion{
 	
 	
 //	public MinioClient conexionMinio(String url, String accessKey, String secretKey){
