@@ -20,11 +20,8 @@ import mx.com.anzen.minio.imple.Operaciones;
 import mx.com.anzen.minio.interfaces.IOperaciones;
 
 public class Main {
-	
-	
-	
-	
-	
+
+	 
 	
 	public static void main(String[] args) {
 		

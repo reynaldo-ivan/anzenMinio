@@ -22,7 +22,7 @@ public class Conexion implements IConexion{
 		MinioClient minioClient=null;
 		
 		try {
-		       minioClient = new MinioClient("http://127.0.0.1:9000", "Z7CQXCQO484CLJ3L7CJU", "i7rJaPg6lRuFbqU+Q72taf1E6Jij0mHJ4lbTv7fF");
+		       minioClient = new MinioClient("https://play.minio.io:9000", "Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG");
  
 		    } catch (MinioException e) {
 		      System.out.println("Error occurred: " + e);
