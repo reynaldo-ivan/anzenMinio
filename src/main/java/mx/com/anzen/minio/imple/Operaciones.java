@@ -35,7 +35,7 @@ import mx.com.anzen.minio.interfaces.IOperaciones;
  *
  *clase que contiene los metodos con las diferentes operaciones
  */
-public class Operaciones implements IOperaciones{
+public class Operaciones implements IOperaciones{ 
 	
 	ApplicationContext appContext=null;
 	IConexion beanConexion=null;
@@ -161,7 +161,7 @@ public class Operaciones implements IOperaciones{
 
 
 	/**
-	 * NOs trae una losta de los archivos dando el nombre del nodo
+	 * NOs trae una lista de los archivos dando el nombre del nodo
 	 */
 	public ArrayList<Archivo> listaArchivos(String nombre) {
 			
@@ -171,7 +171,7 @@ public class Operaciones implements IOperaciones{
 		appContext=new AnnotationConfigApplicationContext(AppConfig.class);
 	    beanConexion=(IConexion) appContext.getBean("conexionConfig"); 
 		MinioClient minioClient=beanConexion.conexionMinio();
-		     
+		      
 		        
 		try {
 			myObjects = minioClient.listObjects(nombre);
@@ -306,7 +306,7 @@ public class Operaciones implements IOperaciones{
 			}
 		      
 		    } catch (MinioException e) {
-		      System.out.println("Error occurred: " + e.getMessage());
+		    	System.out.println("Error: "+e.getMessage());
 		    }
 		return resultado;
 	}

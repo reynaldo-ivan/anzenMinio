@@ -3,6 +3,7 @@ package mx.com.anzen.minio.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import mx.com.anzen.minio.bean.Credencial; 
 import mx.com.anzen.minio.imple.Operaciones;
 import mx.com.anzen.minio.interfaces.IConexion;
 import mx.com.anzen.minio.interfaces.IOperaciones;
@@ -21,6 +22,11 @@ public class AppConfig {
 	public IConexion conexionConfig(){
 		return new Conexion();
 	}
-	 	
+	
+	@Bean(name="credencialConfig")
+	public Credencial credencialConfig(){
+		return new Credencial();
+	}
+	 
 
 }

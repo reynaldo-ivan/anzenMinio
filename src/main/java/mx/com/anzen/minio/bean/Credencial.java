@@ -4,7 +4,8 @@ public class Credencial {
 	 
 	private String url;
 	private String accessKey;
-	private String secretKey;
+	private String secretKey;  
+	private String urlRest;
 	
 	
 	
@@ -26,6 +27,14 @@ public class Credencial {
 	public void setSecretKey(String secretKey) {
 		this.secretKey = secretKey;
 	}
+	public String getUrlRest() {
+		return urlRest;
+	}
+	public void setUrlRest(String urlRest) {
+		this.urlRest = urlRest;
+	}
+	
+ 
 	
 	
 	
